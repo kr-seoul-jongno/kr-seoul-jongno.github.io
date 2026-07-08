@@ -284,6 +284,42 @@ body { padding-top: var(--cg-strip-h); }
 .cg-colophon-note { margin: 4px 0 0; color: #9a9aa8; }
 @media (max-width: 640px) { .cg-strip-label { display: none; } }
 @media (prefers-reduced-motion: reduce) { .cg-skip { transition: none; } }
+
+/* ---- Mobile reading view (touch / small screens) ------------------------------------- */
+/* The immersive per-구 template is desktop-only. On touch devices and narrow screens the
+   .cg-read view is shown instead — it uses only safe, high-contrast CSS so text can never
+   go invisible on iOS Safari (no background-clip:text, backdrop-filter, 100vh, :hover-gated
+   reveals, or mix-blend-mode). Fully namespaced + generator-controlled. */
+.cg-read { display: none; }
+@media (hover: none) and (pointer: coarse), (max-width: 768px) {
+  /* Neutralise immersive templates that lock scrolling / lock the viewport on <body>. */
+  html, body { overflow-x: hidden !important; overflow-y: auto !important; height: auto !important;
+    min-height: 0 !important; position: static !important; touch-action: auto !important; background: #ffffff !important; }
+  .cg-immersive { display: none !important; }
+  .cg-read { display: block; }
+}
+.cg-read { max-width: 720px; margin: 0 auto; padding: 20px 18px 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: #17171f; background: #ffffff; line-height: 1.75; -webkit-text-size-adjust: 100%; }
+.cg-read * { max-width: 100%; box-sizing: border-box; }
+.cg-read-head { padding: 8px 0 16px; border-bottom: 3px solid var(--cg-ra, #2d5bff); margin-bottom: 20px; }
+.cg-read-eyebrow { margin: 0 0 4px; color: var(--cg-rd, #333); font-weight: 700; font-size: 15px; letter-spacing: .02em; }
+.cg-read-head h1 { margin: 0; font-size: clamp(30px, 8vw, 40px); line-height: 1.15; color: #14141c; font-weight: 800; }
+.cg-read h2 { font-size: 20px; margin: 30px 0 10px; padding-left: 11px; color: #14141c; font-weight: 700;
+  border-left: 5px solid var(--cg-ra, #2d5bff); }
+.cg-read p { margin: 0 0 12px; font-size: 17px; color: #23232d; }
+.cg-read section { margin: 0; }
+.cg-read ul { margin: 8px 0 0; padding-left: 20px; }
+.cg-read li { margin: 8px 0; font-size: 16px; color: #23232d; }
+.cg-read li strong { color: #111119; font-weight: 700; }
+.cg-read .facts, .cg-read .symbols { list-style: none; padding: 14px 16px; margin: 8px 0 0;
+  background: #f5f6fa; border: 1px solid #e6e8f0; border-radius: 12px; }
+.cg-read .faq details { border: 1px solid #e6e8f0; border-radius: 10px; padding: 10px 14px; margin: 8px 0; background: #fbfbfd; }
+.cg-read .faq summary { cursor: pointer; font-weight: 700; font-size: 16px; color: #14141c; }
+.cg-read .faq details p { margin: 8px 0 2px; color: #44454f; }
+.cg-read a { color: #1a46d8; word-break: break-word; }
+.cg-read .sources { font-size: 14px; color: #55565f; }
+.cg-read .sources a { color: #3a5bd0; }
 </style>
 </head>
 <body>
@@ -292,6 +328,7 @@ body { padding-top: var(--cg-strip-h); }
     <span class="cg-ad">AD</span><span class="cg-strip-label">후원 파트너</span><span class="cg-strip-list"><a class="cg-strip-item" href="https://ikoffices.com" rel="sponsored noopener" target="_blank">일광오피스</a><span class="cg-strip-dot" aria-hidden="true">·</span><a class="cg-strip-item" href="https://mobidicsaju.com" rel="sponsored noopener" target="_blank">모비딕 사주</a><span class="cg-strip-dot" aria-hidden="true">·</span><a class="cg-strip-item" href="https://www.foodskorea.com/" rel="sponsored noopener" target="_blank">전국팔도 식품도감</a><span class="cg-strip-dot" aria-hidden="true">·</span><a class="cg-strip-item" href="https://myflowmakers.com" rel="sponsored noopener" target="_blank">마이플로우메이커스</a><span class="cg-strip-dot" aria-hidden="true">·</span><a class="cg-strip-item" href="https://yeonlijispace.com" rel="sponsored noopener" target="_blank">연리지 인테리어</a><span class="cg-strip-dot" aria-hidden="true">·</span><a class="cg-strip-item" href="https://yeonliji.io" rel="sponsored noopener" target="_blank">주식회사 연리지</a><span class="cg-strip-dot" aria-hidden="true">·</span><span class="cg-strip-item cg-strip-text">세무·법률 자문</span></span>
   </aside>
   <div id="cg-main" tabindex="-1"></div>
+  <div class="cg-immersive">
 <style>
   :root{
     --jn-hong:#9E1B11;
@@ -431,122 +468,7 @@ body { padding-top: var(--cg-strip-h); }
   }
   .jn-scroll .lead .sido{letter-spacing:.4em;color:var(--jn-geum);font-size:.8rem;text-transform:uppercase;}
 
-  /* Injected       <section id="intro">
-        <h2>지역 소개</h2>
-        <p>종로구는 서울 도심 한복판에 자리한 자치구로, 조선왕조가 한양에 도읍을 정한 이래 600여 년 동안 나라의 중심 무대 역할을 해온 곳이다. 경복궁을 비롯한 다섯 궁궐과 종묘, 한양도성이 좁은 면적 안에 촘촘히 모여 있어 도시 전체가 하나의 야외 역사 박물관에 가깝다. 정부서울청사와 주요 언론사, 대기업 본사가 광화문 일대에 밀집해 &#x27;정치 1번지&#x27;라는 별칭으로도 불린다. 인사동의 고미술 거리, 북촌의 한옥 골목, 대학로의 소극장 거리가 저마다 다른 결의 문화를 품고 있어 관광객과 시민이 사시사철 모여든다. 옛 정취와 첨단 업무 기능이 한 걸음 거리에 공존하는 것이 종로만의 매력이다.</p>
-      </section>
-      <section id="facts">
-        <h2>주요 통계</h2>
-        <ul class="facts">
-          <li>인구: 약 141,650명 (2022)</li>
-          <li>면적: 23.91 km²</li>
-          <li>신설: 1943-06-10</li>
-        </ul>
-      </section>
-      <section id="history">
-        <h2>역사</h2>
-        <p>종로구 일대는 1394년 조선이 한양으로 천도하면서 도읍의 핵심으로 자리 잡았고, 육조거리와 시전 상가가 들어서며 정치와 상업의 중심이 되었다. &#x27;종로&#x27;라는 지명은 도성 한복판에 큰 종을 매달아 새벽과 저녁 시각을 알리던 종루에서 비롯되었다. 1943년 경성부 아래 종로구가 정식 행정구역으로 설치되었고, 광복과 근현대화를 거치며 서울의 행정·금융·언론 기능이 이곳에 집중되었다. 4·19 혁명과 6월 항쟁 등 현대사의 굵직한 장면들이 광화문과 종로 거리에서 펼쳐지며 시민 정치의 상징적 공간으로 각인되었다. 오늘날에도 궁궐과 도성 성곽이 원형에 가깝게 남아 서울의 역사 정체성을 대표하고 있다.</p>
-      </section>
-      <section id="geography">
-        <h2>지리·자연환경</h2>
-        <p>종로구는 서울 사대문 안과 그 북쪽 산자락을 아우르며, 동쪽으로 동대문구, 서쪽으로 서대문구와 은평구, 남쪽으로 중구, 북쪽으로 성북구와 맞닿아 있다. 북악산과 인왕산, 낙산이 세 방향에서 구를 감싸 안아 내사산의 능선을 따라 한양도성 성곽길이 이어진다. 면적은 약 23.91㎢로 서울 25개 자치구 가운데 넓은 편에 속하지만, 상당 부분이 산지와 궁궐 부지여서 실제 주거지는 계곡과 언덕 사이에 흩어져 있다. 도심을 동서로 가로지르는 청계천은 2005년 복원 이후 물길을 되찾아 시민들의 대표적 산책 공간이 되었다. 북한산 자락에서 흘러내리는 물줄기와 백사실계곡 같은 도심 속 계곡이 콘크리트 도시 안에서 뜻밖의 자연을 선사한다.</p>
-      </section>
-      <section id="characteristics">
-        <h2>지역 특징</h2>
-        <p>종로구의 인구는 2020년대 들어 약 14만 명 수준으로, 서울에서 인구가 적은 자치구에 속하지만 낮 시간대 유입 인구는 그 몇 배에 이르는 전형적인 도심 공동화 지역이다. 산업 구조는 관광·문화 서비스와 도심 업무 기능이 두 축을 이루며, 광화문 일대의 대기업 본사와 금융기관, 종로 일대의 귀금속·인쇄 상가, 대학로의 공연예술 생태계가 각기 뚜렷한 상권을 형성한다. 87개 법정동을 17개 행정동이 관할하며, 성균관대와 서울대 연건캠퍼스 등 대학과 병원이 자리해 젊은 유동 인구도 상당하다. 오래된 한옥 주거지와 재개발이 어려운 문화재 보호구역이 많아 다른 도심 자치구보다 저층·전통 경관이 잘 남아 있는 점이 특징이다. 역사 보존과 도시 재생, 상업 활력이라는 세 요구가 늘 팽팽하게 맞물려 종로만의 도시 성격을 만든다.</p>
-      </section>
-      <section id="landmarks">
-        <h2>대표 명소</h2>
-        <ul>
-          <li><strong>경복궁</strong> — 조선의 법궁으로 근정전과 경회루를 품은 대표 궁궐이며, 광화문 앞 수문장 교대의식이 관광객의 발길을 붙든다.</li>
-          <li><strong>창덕궁과 후원</strong> — 자연 지형을 살린 궁궐 배치와 아름다운 후원으로 유네스코 세계유산에 등재된 조선의 별궁이다.</li>
-          <li><strong>북촌 한옥마을</strong> — 경복궁과 창덕궁 사이 언덕에 전통 한옥이 밀집한 주거지로, 골목마다 도심을 내려다보는 전망이 펼쳐지는 도보 관광 명소다.</li>
-          <li><strong>인사동</strong> — 고미술점과 전통 공예방, 찻집과 갤러리가 모인 거리로 외국인 관광객이 즐겨 찾는 대표 문화 상권이다.</li>
-          <li><strong>광화문광장</strong> — 세종대로 한복판에 자리한 도심 광장으로, 세종대왕과 이순신 동상이 서 있고 대규모 집회와 문화 행사가 열리는 서울의 상징 공간이다.</li>
-        </ul>
-      </section>
-      <section id="heritage">
-        <h2>문화유산·문화시설</h2>
-        <ul>
-          <li><strong>종묘</strong> — 조선 역대 왕과 왕비의 신위를 모신 사당으로, 정전의 장엄한 건축과 종묘제례악이 함께 유네스코 세계유산에 등재되었다.</li>
-          <li><strong>한양도성</strong> — 북악산·인왕산·낙산 능선을 따라 이어지는 조선 도읍의 성곽으로, 성곽길을 걸으며 서울 도심과 옛 방어선을 함께 조망할 수 있다.</li>
-          <li><strong>국립현대미술관 서울관</strong> — 소격동 옛 기무사 터에 들어선 복합 미술관으로, 한국 현대미술과 뉴미디어 융복합 전시를 선보인다.</li>
-          <li><strong>아르코예술극장</strong> — 건축가 김수근이 설계한 붉은 벽돌 건물로, 대학로 공연예술의 중심 무대 역할을 해온 대표 극장이다.</li>
-          <li><strong>종로한복축제</strong> — 궁궐과 한옥이 어우러진 거리에서 한복을 차려입고 전통을 체험하는 종로의 대표 문화 축제다.</li>
-        </ul>
-      </section>
-      <section id="nature">
-        <h2>자연·휴식</h2>
-        <ul>
-          <li><strong>청계천</strong> — 도심을 동서로 가로지르는 복원 하천으로, 물길을 따라 이어진 산책로가 시민들의 휴식과 산책 공간이 된다.</li>
-          <li><strong>삼청공원</strong> — 북악산 자락에 자리한 서울 최초의 도시자연공원으로, 숲길과 계곡이 어우러져 도심에서 가까운 자연 쉼터를 제공한다.</li>
-          <li><strong>인왕산 자락길과 한양도성 성곽길</strong> — 인왕산 능선을 따라 조성된 완만한 산책로로, 도성 성곽과 서울 도심 파노라마를 함께 즐길 수 있는 둘레길이다.</li>
-          <li><strong>백사실계곡</strong> — 부암동 도심 속에 숨은 청정 계곡으로, 도롱뇽이 서식하는 맑은 물과 옛 별서 터가 남아 도보 여행객에게 사랑받는다.</li>
-          <li><strong>마로니에공원</strong> — 대학로 동숭동에 자리한 근린공원으로, 야외무대와 갤러리·극장이 둘러싸 젊은 예술 문화의 만남의 장소가 된다.</li>
-        </ul>
-      </section>
-      <section id="transport">
-        <h2>교통</h2>
-        <p>종로구에는 서울 지하철 1호선, 3호선, 4호선, 5호선, 6호선이 지나 서울에서 가장 촘촘한 지하철망을 갖추고 있다. 세 개 노선(1·3·5호선)이 만나는 종로3가역은 도심 최대 환승 거점 중 하나이며, 5호선 광화문역과 3호선 안국역은 궁궐·한옥마을 관광지와 곧바로 이어진다. 4호선 혜화역은 대학로 소극장 거리의 관문 역할을 하고, 3호선 경복궁역은 서촌과 경복궁 답사의 출발점이 된다. 세종대로와 종로가 도심을 동서로 잇는 대표 간선도로이며, 사직로와 율곡로가 궁궐 주변을 순환한다. 도심 특성상 도로가 좁고 혼잡해 관광 시에는 지하철과 도보 이동이 가장 편리하다.</p>
-      </section>
-      <section id="symbols">
-        <h2>지역 상징</h2>
-        <ul class="symbols">
-          <li>구화(꽃): 철쭉</li>
-          <li>구목(나무): 은행나무</li>
-          <li>구조(새): 까치</li>
-        </ul>
-      </section>
-      <section id="faq">
-        <h2>자주 묻는 질문</h2>
-        <div class="faq">
-          <details>
-            <summary>종로구 주요 관광지는 지하철로 어떻게 가나요?</summary>
-            <p>경복궁은 3호선 경복궁역이나 5호선 광화문역, 북촌 한옥마을과 인사동은 3호선 안국역, 대학로는 4호선 혜화역이 가장 가깝습니다.</p>
-          </details>
-          <details>
-            <summary>종로구에는 궁궐이 몇 개나 있나요?</summary>
-            <p>경복궁, 창덕궁, 창경궁, 경희궁, 덕수궁 가운데 앞의 네 궁궐이 종로구에 있으며(덕수궁은 중구 소재), 종묘까지 더해 조선 왕실 유산이 밀집해 있습니다.</p>
-          </details>
-          <details>
-            <summary>종로구청은 어디에 있나요?</summary>
-            <p>종로구청은 수송동 일대, 5호선 광화문역 인근에 위치하며 세종대로와 가까워 대중교통 접근이 편리합니다.</p>
-          </details>
-          <details>
-            <summary>한양도성 성곽길을 걸으려면 어디서 시작하나요?</summary>
-            <p>인왕산 구간은 사직단·경복궁역 쪽에서, 낙산 구간은 혜화문 쪽에서 오르기 좋으며 능선을 따라 서울 도심을 조망할 수 있습니다.</p>
-          </details>
-          <details>
-            <summary>종로구는 왜 &#x27;정치 1번지&#x27;로 불리나요?</summary>
-            <p>정부서울청사와 주요 언론사, 대기업 본사가 광화문 일대에 모여 있고 역대 대형 집회가 열려온 상징성 때문에 정치·행정의 중심지로 불립니다.</p>
-          </details>
-          <details>
-            <summary>종로에서 전통문화를 체험하기 좋은 곳은 어디인가요?</summary>
-            <p>인사동에서는 고미술과 전통 공예를, 북촌에서는 한옥 골목과 공방을, 익선동에서는 개조 한옥 카페 거리를 즐길 수 있습니다.</p>
-          </details>
-        </div>
-      </section>
-      <section id="links">
-        <h2>공식 링크</h2>
-        <ul>
-          <li><a href="https://www.jongno.go.kr" rel="noopener">종로구청 공식 홈페이지</a></li>
-        </ul>
-      </section>
-      <section id="github">
-        <h2>GitHub</h2>
-        <ul>
-          <li><a href="https://github.com/kr-seoul-jongno" rel="noopener">GitHub 조직: kr-seoul-jongno</a></li>
-          <li><a href="https://github.com/kr-seoul-jongno/kr-seoul-jongno.github.io" rel="noopener">이 사이트 저장소</a></li>
-        </ul>
-      </section>
-      <section id="sources">
-        <h2>출처</h2>
-        <ul class="sources">
-          <li><a href="https://ko.wikipedia.org/wiki/%EC%A2%85%EB%A1%9C%EA%B5%AC" rel="noopener">종로구 - 위키백과</a> (조회 2026-07-08)</li>
-          <li><a href="https://ko.wikipedia.org/wiki/%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90" rel="noopener">마로니에공원 - 위키백과</a> (조회 2026-07-08)</li>
-          <li><a href="https://www.mmca.go.kr/visitingInfo/seoulInfo.do" rel="noopener">국립현대미술관 서울 - 방문안내</a> (조회 2026-07-08)</li>
-        </ul>
-      </section> sections styled as palace scroll */
+  /* Injected 콘텐츠 sections styled as palace scroll */
   #jn-content section{
     background:var(--jn-hanji);border:1px solid rgba(180,138,47,.35);
     border-left:5px solid var(--jn-hong);
@@ -948,6 +870,131 @@ body { padding-top: var(--cg-strip-h); }
   render();
 })();
 </script>
+  </div>
+  <main class="cg-read" id="cg-read" role="main" lang="ko" style="--cg-ra:#ab2b69;--cg-ra2:#d04539;--cg-rd:#571937">
+    <header class="cg-read-head">
+      <p class="cg-read-eyebrow">서울특별시</p>
+      <h1>종로구</h1>
+    </header>
+    <div class="cg-read-body">
+      <section id="r-intro">
+        <h2>지역 소개</h2>
+        <p>종로구는 서울 도심 한복판에 자리한 자치구로, 조선왕조가 한양에 도읍을 정한 이래 600여 년 동안 나라의 중심 무대 역할을 해온 곳이다. 경복궁을 비롯한 다섯 궁궐과 종묘, 한양도성이 좁은 면적 안에 촘촘히 모여 있어 도시 전체가 하나의 야외 역사 박물관에 가깝다. 정부서울청사와 주요 언론사, 대기업 본사가 광화문 일대에 밀집해 &#x27;정치 1번지&#x27;라는 별칭으로도 불린다. 인사동의 고미술 거리, 북촌의 한옥 골목, 대학로의 소극장 거리가 저마다 다른 결의 문화를 품고 있어 관광객과 시민이 사시사철 모여든다. 옛 정취와 첨단 업무 기능이 한 걸음 거리에 공존하는 것이 종로만의 매력이다.</p>
+      </section>
+      <section id="r-facts">
+        <h2>주요 통계</h2>
+        <ul class="facts">
+          <li>인구: 약 141,650명 (2022)</li>
+          <li>면적: 23.91 km²</li>
+          <li>신설: 1943-06-10</li>
+        </ul>
+      </section>
+      <section id="r-history">
+        <h2>역사</h2>
+        <p>종로구 일대는 1394년 조선이 한양으로 천도하면서 도읍의 핵심으로 자리 잡았고, 육조거리와 시전 상가가 들어서며 정치와 상업의 중심이 되었다. &#x27;종로&#x27;라는 지명은 도성 한복판에 큰 종을 매달아 새벽과 저녁 시각을 알리던 종루에서 비롯되었다. 1943년 경성부 아래 종로구가 정식 행정구역으로 설치되었고, 광복과 근현대화를 거치며 서울의 행정·금융·언론 기능이 이곳에 집중되었다. 4·19 혁명과 6월 항쟁 등 현대사의 굵직한 장면들이 광화문과 종로 거리에서 펼쳐지며 시민 정치의 상징적 공간으로 각인되었다. 오늘날에도 궁궐과 도성 성곽이 원형에 가깝게 남아 서울의 역사 정체성을 대표하고 있다.</p>
+      </section>
+      <section id="r-geography">
+        <h2>지리·자연환경</h2>
+        <p>종로구는 서울 사대문 안과 그 북쪽 산자락을 아우르며, 동쪽으로 동대문구, 서쪽으로 서대문구와 은평구, 남쪽으로 중구, 북쪽으로 성북구와 맞닿아 있다. 북악산과 인왕산, 낙산이 세 방향에서 구를 감싸 안아 내사산의 능선을 따라 한양도성 성곽길이 이어진다. 면적은 약 23.91㎢로 서울 25개 자치구 가운데 넓은 편에 속하지만, 상당 부분이 산지와 궁궐 부지여서 실제 주거지는 계곡과 언덕 사이에 흩어져 있다. 도심을 동서로 가로지르는 청계천은 2005년 복원 이후 물길을 되찾아 시민들의 대표적 산책 공간이 되었다. 북한산 자락에서 흘러내리는 물줄기와 백사실계곡 같은 도심 속 계곡이 콘크리트 도시 안에서 뜻밖의 자연을 선사한다.</p>
+      </section>
+      <section id="r-characteristics">
+        <h2>지역 특징</h2>
+        <p>종로구의 인구는 2020년대 들어 약 14만 명 수준으로, 서울에서 인구가 적은 자치구에 속하지만 낮 시간대 유입 인구는 그 몇 배에 이르는 전형적인 도심 공동화 지역이다. 산업 구조는 관광·문화 서비스와 도심 업무 기능이 두 축을 이루며, 광화문 일대의 대기업 본사와 금융기관, 종로 일대의 귀금속·인쇄 상가, 대학로의 공연예술 생태계가 각기 뚜렷한 상권을 형성한다. 87개 법정동을 17개 행정동이 관할하며, 성균관대와 서울대 연건캠퍼스 등 대학과 병원이 자리해 젊은 유동 인구도 상당하다. 오래된 한옥 주거지와 재개발이 어려운 문화재 보호구역이 많아 다른 도심 자치구보다 저층·전통 경관이 잘 남아 있는 점이 특징이다. 역사 보존과 도시 재생, 상업 활력이라는 세 요구가 늘 팽팽하게 맞물려 종로만의 도시 성격을 만든다.</p>
+      </section>
+      <section id="r-landmarks">
+        <h2>대표 명소</h2>
+        <ul>
+          <li><strong>경복궁</strong> — 조선의 법궁으로 근정전과 경회루를 품은 대표 궁궐이며, 광화문 앞 수문장 교대의식이 관광객의 발길을 붙든다.</li>
+          <li><strong>창덕궁과 후원</strong> — 자연 지형을 살린 궁궐 배치와 아름다운 후원으로 유네스코 세계유산에 등재된 조선의 별궁이다.</li>
+          <li><strong>북촌 한옥마을</strong> — 경복궁과 창덕궁 사이 언덕에 전통 한옥이 밀집한 주거지로, 골목마다 도심을 내려다보는 전망이 펼쳐지는 도보 관광 명소다.</li>
+          <li><strong>인사동</strong> — 고미술점과 전통 공예방, 찻집과 갤러리가 모인 거리로 외국인 관광객이 즐겨 찾는 대표 문화 상권이다.</li>
+          <li><strong>광화문광장</strong> — 세종대로 한복판에 자리한 도심 광장으로, 세종대왕과 이순신 동상이 서 있고 대규모 집회와 문화 행사가 열리는 서울의 상징 공간이다.</li>
+        </ul>
+      </section>
+      <section id="r-heritage">
+        <h2>문화유산·문화시설</h2>
+        <ul>
+          <li><strong>종묘</strong> — 조선 역대 왕과 왕비의 신위를 모신 사당으로, 정전의 장엄한 건축과 종묘제례악이 함께 유네스코 세계유산에 등재되었다.</li>
+          <li><strong>한양도성</strong> — 북악산·인왕산·낙산 능선을 따라 이어지는 조선 도읍의 성곽으로, 성곽길을 걸으며 서울 도심과 옛 방어선을 함께 조망할 수 있다.</li>
+          <li><strong>국립현대미술관 서울관</strong> — 소격동 옛 기무사 터에 들어선 복합 미술관으로, 한국 현대미술과 뉴미디어 융복합 전시를 선보인다.</li>
+          <li><strong>아르코예술극장</strong> — 건축가 김수근이 설계한 붉은 벽돌 건물로, 대학로 공연예술의 중심 무대 역할을 해온 대표 극장이다.</li>
+          <li><strong>종로한복축제</strong> — 궁궐과 한옥이 어우러진 거리에서 한복을 차려입고 전통을 체험하는 종로의 대표 문화 축제다.</li>
+        </ul>
+      </section>
+      <section id="r-nature">
+        <h2>자연·휴식</h2>
+        <ul>
+          <li><strong>청계천</strong> — 도심을 동서로 가로지르는 복원 하천으로, 물길을 따라 이어진 산책로가 시민들의 휴식과 산책 공간이 된다.</li>
+          <li><strong>삼청공원</strong> — 북악산 자락에 자리한 서울 최초의 도시자연공원으로, 숲길과 계곡이 어우러져 도심에서 가까운 자연 쉼터를 제공한다.</li>
+          <li><strong>인왕산 자락길과 한양도성 성곽길</strong> — 인왕산 능선을 따라 조성된 완만한 산책로로, 도성 성곽과 서울 도심 파노라마를 함께 즐길 수 있는 둘레길이다.</li>
+          <li><strong>백사실계곡</strong> — 부암동 도심 속에 숨은 청정 계곡으로, 도롱뇽이 서식하는 맑은 물과 옛 별서 터가 남아 도보 여행객에게 사랑받는다.</li>
+          <li><strong>마로니에공원</strong> — 대학로 동숭동에 자리한 근린공원으로, 야외무대와 갤러리·극장이 둘러싸 젊은 예술 문화의 만남의 장소가 된다.</li>
+        </ul>
+      </section>
+      <section id="r-transport">
+        <h2>교통</h2>
+        <p>종로구에는 서울 지하철 1호선, 3호선, 4호선, 5호선, 6호선이 지나 서울에서 가장 촘촘한 지하철망을 갖추고 있다. 세 개 노선(1·3·5호선)이 만나는 종로3가역은 도심 최대 환승 거점 중 하나이며, 5호선 광화문역과 3호선 안국역은 궁궐·한옥마을 관광지와 곧바로 이어진다. 4호선 혜화역은 대학로 소극장 거리의 관문 역할을 하고, 3호선 경복궁역은 서촌과 경복궁 답사의 출발점이 된다. 세종대로와 종로가 도심을 동서로 잇는 대표 간선도로이며, 사직로와 율곡로가 궁궐 주변을 순환한다. 도심 특성상 도로가 좁고 혼잡해 관광 시에는 지하철과 도보 이동이 가장 편리하다.</p>
+      </section>
+      <section id="r-symbols">
+        <h2>지역 상징</h2>
+        <ul class="symbols">
+          <li>구화(꽃): 철쭉</li>
+          <li>구목(나무): 은행나무</li>
+          <li>구조(새): 까치</li>
+        </ul>
+      </section>
+      <section id="r-faq">
+        <h2>자주 묻는 질문</h2>
+        <div class="faq">
+          <details>
+            <summary>종로구 주요 관광지는 지하철로 어떻게 가나요?</summary>
+            <p>경복궁은 3호선 경복궁역이나 5호선 광화문역, 북촌 한옥마을과 인사동은 3호선 안국역, 대학로는 4호선 혜화역이 가장 가깝습니다.</p>
+          </details>
+          <details>
+            <summary>종로구에는 궁궐이 몇 개나 있나요?</summary>
+            <p>경복궁, 창덕궁, 창경궁, 경희궁, 덕수궁 가운데 앞의 네 궁궐이 종로구에 있으며(덕수궁은 중구 소재), 종묘까지 더해 조선 왕실 유산이 밀집해 있습니다.</p>
+          </details>
+          <details>
+            <summary>종로구청은 어디에 있나요?</summary>
+            <p>종로구청은 수송동 일대, 5호선 광화문역 인근에 위치하며 세종대로와 가까워 대중교통 접근이 편리합니다.</p>
+          </details>
+          <details>
+            <summary>한양도성 성곽길을 걸으려면 어디서 시작하나요?</summary>
+            <p>인왕산 구간은 사직단·경복궁역 쪽에서, 낙산 구간은 혜화문 쪽에서 오르기 좋으며 능선을 따라 서울 도심을 조망할 수 있습니다.</p>
+          </details>
+          <details>
+            <summary>종로구는 왜 &#x27;정치 1번지&#x27;로 불리나요?</summary>
+            <p>정부서울청사와 주요 언론사, 대기업 본사가 광화문 일대에 모여 있고 역대 대형 집회가 열려온 상징성 때문에 정치·행정의 중심지로 불립니다.</p>
+          </details>
+          <details>
+            <summary>종로에서 전통문화를 체험하기 좋은 곳은 어디인가요?</summary>
+            <p>인사동에서는 고미술과 전통 공예를, 북촌에서는 한옥 골목과 공방을, 익선동에서는 개조 한옥 카페 거리를 즐길 수 있습니다.</p>
+          </details>
+        </div>
+      </section>
+      <section id="r-links">
+        <h2>공식 링크</h2>
+        <ul>
+          <li><a href="https://www.jongno.go.kr" rel="noopener">종로구청 공식 홈페이지</a></li>
+        </ul>
+      </section>
+      <section id="r-github">
+        <h2>GitHub</h2>
+        <ul>
+          <li><a href="https://github.com/kr-seoul-jongno" rel="noopener">GitHub 조직: kr-seoul-jongno</a></li>
+          <li><a href="https://github.com/kr-seoul-jongno/kr-seoul-jongno.github.io" rel="noopener">이 사이트 저장소</a></li>
+        </ul>
+      </section>
+      <section id="r-sources">
+        <h2>출처</h2>
+        <ul class="sources">
+          <li><a href="https://ko.wikipedia.org/wiki/%EC%A2%85%EB%A1%9C%EA%B5%AC" rel="noopener">종로구 - 위키백과</a> (조회 2026-07-08)</li>
+          <li><a href="https://ko.wikipedia.org/wiki/%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90" rel="noopener">마로니에공원 - 위키백과</a> (조회 2026-07-08)</li>
+          <li><a href="https://www.mmca.go.kr/visitingInfo/seoulInfo.do" rel="noopener">국립현대미술관 서울 - 방문안내</a> (조회 2026-07-08)</li>
+        </ul>
+      </section>
+    </div>
+  </main>
   <aside class="cg-sponsors" aria-label="후원 파트너 상세">
     <p class="cg-spon-head"><span class="cg-ad">AD</span> 후원 파트너 <small>이 링크는 광고이며 편집상의 추천이 아닙니다 (rel=&quot;sponsored&quot;).</small></p>
     <ul class="cg-spon-grid">
